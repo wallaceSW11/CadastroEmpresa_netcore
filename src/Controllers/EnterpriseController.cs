@@ -1,3 +1,4 @@
+using ISS.Models;
 using ISS.Controllers.Interfaces;
 using ISS.Models;
 using ISS.Repositories;
@@ -12,6 +13,11 @@ namespace ISS.Controllers
     {
         private readonly EnterpriseRepository _repository;
 
+        private DefaultReturn EnterpriseNotFound()
+        {
+            return new DefaultReturn("error", "The enterprise was not found.");
+        }
+
         public EnterpriseController(EnterpriseRepository repository)
         {
             _repository = repository;
@@ -23,6 +29,8 @@ namespace ISS.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            if (_repository.Exists(enterprise.Identification)) return Conflict(new DefaultReturn("error", "The enterprise already exists."));
+
             var newEnterprise = await _repository.Insert(enterprise);
 
             return Created("Add", newEnterprise);
@@ -31,9 +39,7 @@ namespace ISS.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Enterprise>>> GetAll()
         {
-
             return Ok(await _repository.SelectAll());
-
         }
 
         [HttpGet("{id}")]
@@ -51,9 +57,9 @@ namespace ISS.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            Enterprise enterpriseLocalized = await _repository.SelectById(id);
+            if (!_repository.Exists(enterprise.Identification)) return NotFound(EnterpriseNotFound());
 
-            if (enterpriseLocalized == null) return NotFound();
+            Enterprise enterpriseLocalized = await _repository.SelectById(id);
 
             var enterpriseUpdated = await _repository.Update(enterprise);
 
@@ -64,9 +70,11 @@ namespace ISS.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
+            if (!_repository.Exists(id)) return NotFound(EnterpriseNotFound());
+
             await _repository.Detele(id);
 
-            return Ok();
+            return Ok("Deleted");
 
         }
 

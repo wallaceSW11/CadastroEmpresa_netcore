@@ -6,6 +6,21 @@ namespace ISS.Repositories
     public class EnterpriseRepository : ICrudRepository<Enterprise>
     {
         private List<Enterprise> _enterprises = new List<Enterprise>();
+
+        public Boolean Exists(string identification)
+        {
+            var enterpriseLocalized = _enterprises.Find(e => e.Identification == identification);
+
+            return (enterpriseLocalized != null);
+        }
+
+        public Boolean Exists(Guid id)
+        {
+            var enterpriseLocalized = _enterprises.Find(e => e.Id == id);
+
+            return (enterpriseLocalized != null);
+        }
+
         public Task Detele(Guid id)
         {
             var enterpriseLocalized = _enterprises.Find(e => e.Id == id);
