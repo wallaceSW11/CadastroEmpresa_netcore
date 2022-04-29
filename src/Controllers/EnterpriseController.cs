@@ -1,6 +1,4 @@
 using ISS.Models;
-using ISS.Controllers.Interfaces;
-using ISS.Models;
 using ISS.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
