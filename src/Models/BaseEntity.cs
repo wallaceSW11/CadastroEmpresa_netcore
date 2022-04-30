@@ -4,10 +4,10 @@ namespace ISS.Models
     {
         public Guid Id { get; protected set; }
 
-        public BaseEntity()
-        {
-            Id = Guid.NewGuid();
-        }
+        // public BaseEntity()
+        // {
+        //     Id = Guid.NewGuid();
+        // }
 
     }
 }

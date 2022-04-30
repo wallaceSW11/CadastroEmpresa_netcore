@@ -55,13 +55,9 @@ namespace ISS.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (!_repository.Exists(enterprise.Identification)) return NotFound(EnterpriseNotFound());
+            if (!_repository.Exists(id)) return NotFound(EnterpriseNotFound());
 
-            Enterprise enterpriseLocalized = await _repository.SelectById(id);
-
-            var enterpriseUpdated = await _repository.Update(enterprise);
-
-            return Ok(enterpriseUpdated);
+            return Ok(await _repository.Update(enterprise));
 
         }
 
@@ -72,7 +68,7 @@ namespace ISS.Controllers
 
             await _repository.Detele(id);
 
-            return Ok("Deleted");
+            return Ok(new DefaultReturn("success", "Enterprise deleted successfully"));
 
         }
 

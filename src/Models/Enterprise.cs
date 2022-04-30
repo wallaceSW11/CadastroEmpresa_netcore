@@ -17,8 +17,9 @@ namespace ISS.Models
         [Required(ErrorMessage = "Please, inform the provider.")]
         public string Provider { get; set; }
 
-        public Enterprise(string identification, string name, string city, string provider):base()
+        public Enterprise(Guid id, string identification, string name, string city, string provider):base()
         {
+            Id = id == Guid.Empty ? Guid.NewGuid() : id;
             Identification = identification;
             Name = name;
             City = city;
