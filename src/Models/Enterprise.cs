@@ -14,16 +14,19 @@ namespace ISS.Models
         [Required(ErrorMessage = "Please, inform the city.")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "Please, inform the provider.")]
-        public string Provider { get; set; }
+        [Required(ErrorMessage = "Please, inform the State.")]
+        public string State { get; set; }
 
-        public Enterprise(Guid id, string identification, string name, string city, string provider):base()
+        [Required(ErrorMessage = "Please, inform the Country.")]
+        public string Country { get; set; }
+        public Enterprise(Guid id, string identification, string name, string city, string state, string country):base()
         {
             Id = id == Guid.Empty ? Guid.NewGuid() : id;
             Identification = identification;
             Name = name;
             City = city;
-            Provider = provider;
+            State = state;
+            Country = country;
         }
 
     }

@@ -57,7 +57,7 @@ namespace ISS.Controllers
 
             if (!_repository.Exists(id)) return NotFound(EnterpriseNotFound());
 
-            return Ok(await _repository.Update(enterprise));
+             return Ok(await _repository.Update(enterprise));
 
         }
 
